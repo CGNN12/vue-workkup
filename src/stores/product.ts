@@ -7,7 +7,7 @@ export interface Product {
   price: number
   description: string
   stock: number
-  Image: string
+  image: string
 }
 
 const mockProduct: Product[] = [
@@ -17,7 +17,7 @@ const mockProduct: Product[] = [
     price: 10,
     description: 'Description 1',
     stock: 10,
-    Image: 'https://via.placeholder.com/150',
+    image: 'https://via.placeholder.com/150',
   },
   {
     id: 2,
@@ -25,7 +25,7 @@ const mockProduct: Product[] = [
     price: 20,
     description: 'Description 2',
     stock: 20,
-    Image: 'https://via.placeholder.com/150',
+    image: 'https://via.placeholder.com/150',
   },
   {
     id: 3,
@@ -33,7 +33,7 @@ const mockProduct: Product[] = [
     price: 30,
     description: 'Description 3',
     stock: 30,
-    Image: 'https://via.placeholder.com/150',
+    image: 'https://via.placeholder.com/150',
   },
   {
     id: 4,
@@ -41,7 +41,7 @@ const mockProduct: Product[] = [
     price: 40,
     description: 'Description 4',
     stock: 40,
-    Image: 'https://via.placeholder.com/150',
+    image: 'https://via.placeholder.com/150',
   },
 ]
 
