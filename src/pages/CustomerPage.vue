@@ -39,21 +39,21 @@ const filteredProducts = computed(() => {
         </UInput>
       </div>
     </div>
-  </div>
 
-  <div class="product-grid">
-    <ProductCard
-      v-for="product in filteredProducts"
-      :key="product.id"
-      :product="product"
-      :isAdmin="false"
-    />
-    <div v-if="filteredProducts.length === 0" class="empty-state">
-      <UIcon name="i-lucide-coffee" class="text-6x1 text-muted mb-4" />
-      <p v-if="searchQuery" class="text-lg text-muted">
-        "{{ searchQuery }}" ile eşleşen ürün bulunamadı.
-      </p>
-      <p v-else class="text-lg text-muted">Şu anda menümüzde ürün bulunmuyor.</p>
+    <div class="product-grid">
+      <ProductCard
+        v-for="product in filteredProducts"
+        :key="product.id"
+        :product="product"
+        :isAdmin="false"
+      />
+      <div v-if="filteredProducts.length === 0" class="empty-state">
+        <UIcon name="i-lucide-coffee" class="text-6xl text-muted mb-4" />
+        <p v-if="searchQuery" class="text-lg text-muted">
+          "{{ searchQuery }}" ile eşleşen ürün bulunamadı.
+        </p>
+        <p v-else class="text-lg text-muted">Şu anda menümüzde ürün bulunmuyor.</p>
+      </div>
     </div>
   </div>
 </template>

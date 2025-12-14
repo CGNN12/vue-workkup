@@ -1,6 +1,6 @@
 <template>
   <Suspense>
-    <UApp>
+    <UApp class="bg-white dark:bg-black min-h-screen">
       <UHeader>
         <template #left>
           <RouterLink to="/" class="flex items-center gap-2">

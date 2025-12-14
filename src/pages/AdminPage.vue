@@ -77,7 +77,11 @@ function handleDelete() {
       </UButton>
     </div>
 
-    <ProductModal v-model:open="isProductModalOpen" :Product="editingProduct" @save="handleSave" />
+    <ProductModal
+      v-model:open="isProductModalOpen"
+      :product="editingProduct || undefined"
+      @save="handleSave"
+    />
 
     <DeleteConfirmModal
       v-model:open="isDeleteModalOpen"
