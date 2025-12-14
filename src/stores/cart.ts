@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { useProductStore, type Product } from './product '
+import { useProductStore, type Product } from './product'
 
 export interface CartItem {
-  product: Product
+  productId: number
   name: string
   price: number
   quantity: number
@@ -45,7 +45,7 @@ export const useCartStore = defineStore(
     }
 
     function removeItem(productId: number) {
-      const index = items.value.findIndex((item) => item.product.id === productId)
+      const index = items.value.findIndex((item) => item.productId === productId)
       if (index !== -1) {
         const item = items.value[index]
         if (item.quantity > 1) {
