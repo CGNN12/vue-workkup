@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Product } from '../src/stores/product'
+import { useCartStore } from '../src/stores/cart'
 import { computed } from 'vue'
 
 const props = defineProps<{
@@ -12,16 +13,30 @@ const emit = defineEmits<{
   delete: [product: Product]
 }>()
 
+const toast = useToast()
+
+const cartStore = useCartStore()
+
+function handleAddToCart() {
+  cartStore.addItem(props.product.id)
+  toast.add({
+    title: 'Ürününüz Sepete Eklendi',
+    description: `${props.product.name} sepete eklendi`,
+    color: 'success',
+    icon: 'i-lucide-check-circle',
+  })
+}
+
 const stockStatus = computed(() => {
   if (props.product.stock === 0) {
     return { color: 'error', variant: 'solid', lable: 'Stokta Yok' }
   }
 
   if (props.product.stock < 5) {
-    return { color: 'warning', variant: 'soft', lable: `Son ${props.product.stock} Adet!` }
+    return { color: 'warning', variant: 'solid', lable: `Son ${props.product.stock} Adet!` }
   }
 
-  return { color: 'success', variant: 'soft', lable: `${props.product.stock} Adet Kaldı` }
+  return { color: 'success', variant: 'solid', lable: `${props.product.stock} Adet Kaldı` }
 })
 
 const isOutOfStock = computed(() => props.product.stock === 0)
@@ -36,7 +51,7 @@ const isOutOfStock = computed(() => props.product.stock === 0)
       <div class="aspect-4/3 overflow-hidden rounded-lg -m-4 mb-0 relative">
         <img
           :src="product.image"
-          alt="product.name"
+          :alt="product.name"
           class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
         <div class="absolute top-2 right-2">
@@ -51,11 +66,16 @@ const isOutOfStock = computed(() => props.product.stock === 0)
       <div class="flex items-start justify-between gap-2">
         <h3 class="text-lg font-semibold text-default">{{ product.name }}</h3>
       </div>
+      <div class="flex items-center justify-between">
+        <p class="text-sm text-muted flex-1 line-clamp-2">{{ product.description }}</p>
 
-      <p class="text-sm text-muted flex-1 line-clamp-2">{{ product.description }}</p>
+        <UBadge color="primary" class="p-1.5" variant="soft" size="sm">{{
+          product.category
+        }}</UBadge>
+      </div>
 
       <div
-        class="flex items-center justify-between mt-2 pt-2 border-t border-gray-100 dark:border-gray-800"
+        class="flex items-center justify-between mt-2 pt-2 border-t border-gray-200 dark:border-gray-800"
       >
         <span class="text-xl font-bold text-primary">₺{{ product.price }}</span>
 
@@ -84,10 +104,11 @@ const isOutOfStock = computed(() => props.product.stock === 0)
             icon="i-lucide-shopping-bag"
             size="sm"
             color="primary"
-            variant="soft"
-          >
-            Sepete Ekle
-          </UButton>
+            variant="solid"
+            @click="handleAddToCart"
+            label="Sepete Ekle"
+            class="shadow-sm"
+          />
           <span v-else class="text-xs text-error font-medium">Gelince Haber Ver</span>
         </div>
       </div>

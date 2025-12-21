@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { useProductStore, type Product } from './product'
+import { useProductStore } from './product'
 
 export interface CartItem {
   productId: number
@@ -48,10 +48,12 @@ export const useCartStore = defineStore(
       const index = items.value.findIndex((item) => item.productId === productId)
       if (index !== -1) {
         const item = items.value[index]
-        if (item.quantity > 1) {
-          item.quantity--
-        } else {
-          items.value.splice(index, 1)
+        if (item) {
+          if (item.quantity > 1) {
+            item.quantity--
+          } else {
+            items.value.splice(index, 1)
+          }
         }
       }
     }

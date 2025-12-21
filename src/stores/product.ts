@@ -7,6 +7,7 @@ export interface Product {
   price: number
   description: string
   stock: number
+  category: string
   image: string
 }
 
@@ -18,6 +19,7 @@ const mockProduct: Product[] = [
     description: 'Description 1',
     stock: 10,
     image: 'https://via.placeholder.com/150',
+    category: 'Sıcak Kahve',
   },
   {
     id: 2,
@@ -26,6 +28,7 @@ const mockProduct: Product[] = [
     description: 'Description 2',
     stock: 20,
     image: 'https://via.placeholder.com/150',
+    category: 'Sıcak Kahve',
   },
   {
     id: 3,
@@ -34,6 +37,7 @@ const mockProduct: Product[] = [
     description: 'Description 3',
     stock: 30,
     image: 'https://via.placeholder.com/150',
+    category: 'Sıcak Kahve',
   },
   {
     id: 4,
@@ -42,6 +46,7 @@ const mockProduct: Product[] = [
     description: 'Description 4',
     stock: 40,
     image: 'https://via.placeholder.com/150',
+    category: 'Sıcak Kahve',
   },
 ]
 
@@ -52,6 +57,11 @@ export const useProductStore = defineStore(
     const nextId = computed(() => {
       if (products.value.length === 0) return 1
       return Math.max(...products.value.map((p) => p.id)) + 1
+    })
+
+    const categories = computed(() => {
+      const uniqueCategories = [...new Set(products.value.map((p) => p.category))]
+      return uniqueCategories
     })
 
     function addProduct(product: Omit<Product, 'id'>) {
@@ -80,6 +90,7 @@ export const useProductStore = defineStore(
 
     return {
       products,
+      categories,
       addProduct,
       updateProduct,
       deleteProduct,

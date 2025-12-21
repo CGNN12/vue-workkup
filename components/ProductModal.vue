@@ -18,7 +18,14 @@ const form = ref({
   price: 0,
   stock: 0,
   image: '',
+  category: '',
 })
+
+const categories = [
+  { value: 'Sıcak Kahve', label: 'Sıcak Kahve' },
+  { value: 'Soğuk Kahve', label: 'Soğuk Kahve' },
+  { value: 'Aromalı Kahve', label: 'Aromalı Kahve' },
+]
 
 watch(
   () => props.open,
@@ -30,6 +37,7 @@ watch(
           description: props.product.description,
           price: props.product.price,
           stock: props.product.stock,
+          category: props.product.category,
           image: props.product.image,
         }
       } else {
@@ -39,6 +47,7 @@ watch(
           price: 0,
           stock: 0,
           image: '',
+          category: '',
         }
       }
     }
@@ -68,31 +77,40 @@ function handleClose() {
   >
     <template #body>
       <form class="flex flex-col gap-4" @submit.prevent="handleSubmit">
-        <UFormField label="Ürün Adı" required>
-          <UInput v-model="form.name" placeholder="Örn: Espresso" required />
-        </UFormField>
+        <div class="grid grid-cols-2 gap-4">
+          <UFormField label="Ürün Adı" required>
+            <UInput v-model="form.name" placeholder="Örn: Espresso" required />
+          </UFormField>
 
-        <UFormField label="Açıklama" required>
-          <UTextarea
-            v-model="form.description"
-            placeholder="Ürün açıklaması..."
-            :rows="3"
-            required
-          />
-        </UFormField>
+          <UFormField label="Açıklama" required>
+            <UTextarea
+              v-model="form.description"
+              placeholder="Ürün açıklaması..."
+              :rows="3"
+              required
+            />
+          </UFormField>
+        </div>
 
         <div class="grid grid-cols-2 gap-4">
           <UFormField label="Fiyat (₺)" required>
             <UInput v-model.number="form.price" type="number" min="0" step="0.01" required />
           </UFormField>
-
-          <UFormField label="Stok Adedi" required>
-            <UInput v-model.number="form.stock" type="number" min="0" required />
-          </UFormField>
         </div>
 
+        <UFormField label="Stok Adedi" required>
+          <UInput v-model.number="form.stock" type="number" min="0" required />
+        </UFormField>
+
+        <USelect
+          v-model="form.category"
+          class="w-1/2"
+          :items="categories"
+          placeholder="Kategori Seçiniz"
+        ></USelect>
+
         <UFormField label="Görsel URL">
-          <UInput v-model="form.image" placeholder="https://example.com/image.jpg" />
+          <UInput v-model="form.image" class="w-full" placeholder="https://example.com/image.jpg" />
         </UFormField>
 
         <div class="flex justify-end gap-3 pt-4">

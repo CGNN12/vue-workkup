@@ -1,6 +1,13 @@
+<script setup lang="ts">
+import { useCartStore } from './stores/cart'
+import NewsTicker from '../components/NewsTicker.vue'
+const cartStore = useCartStore()
+</script>
+
 <template>
   <Suspense>
-    <UApp class="bg-white dark:bg-black min-h-screen">
+    <UApp>
+      <NewsTicker />
       <UHeader>
         <template #left>
           <RouterLink to="/" class="flex items-center gap-2">
@@ -10,21 +17,39 @@
         </template>
 
         <nav class="flex items-center gap-1">
-          <UButton to="/" :variant="$route.path === '/' ? 'soft' : 'ghost'" color="neutral">
-            <UIcon name="i-lucide-store" class="mr-1" />
-            Menü
+          <UButton
+            to="/"
+            :variant="$route.path === '/' ? 'solid' : 'ghost'"
+            :color="$route.path === '/' ? 'primary' : 'neutral'"
+          >
+            <UIcon name="i-lucide-home" class="mr-1" />
+            Anasayfa
           </UButton>
           <UButton
-            to="/admin"
-            :variant="$route.path === '/admin' ? 'soft' : 'ghost'"
-            color="neutral"
+            to="/products"
+            :variant="$route.path === '/products' ? 'solid' : 'ghost'"
+            :color="$route.path === '/products' ? 'primary' : 'neutral'"
           >
-            <UIcon name="i-lucide-settings" class="mr-1" />
-            Admin
+            <UIcon name="i-lucide-coffee" class="mr-1" />
+            Ürünler
           </UButton>
         </nav>
 
         <template #right>
+          <UChip
+            :text="cartStore.totalQuantity > 0 ? cartStore.totalQuantity : undefined"
+            color="primary"
+            size="2xl"
+          >
+            <UButton
+              to="/cart"
+              :variant="$route.path === '/cart' ? 'solid' : 'subtle'"
+              color="primary"
+              size="md"
+              icon="i-lucide-shopping-cart"
+              aria-label="Sepet"
+            />
+          </UChip>
           <UColorModeButton />
         </template>
       </UHeader>
@@ -40,6 +65,7 @@
           <p class="text-sm text-muted">Kahve Dükkanı • © {{ new Date().getFullYear() }}</p>
         </template>
       </UFooter>
+      <UNotification />
     </UApp>
   </Suspense>
 </template>

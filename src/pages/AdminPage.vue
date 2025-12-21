@@ -37,9 +37,18 @@ function handleSave(productData: Omit<Product, 'id'> & { id?: number }) {
   }
 }
 
+const toast = useToast()
+
 function handleDelete() {
   if (deletingProduct.value) {
     store.deleteProduct(deletingProduct.value.id)
+
+    toast.add({
+      title: 'Ürün Silindi',
+      description: `${deletingProduct.value.name} ürünü silindi`,
+      color: 'error',
+      icon: 'i-lucide-trash-2',
+    })
     deletingProduct.value = null
     isDeleteModalOpen.value = false
   }
@@ -58,7 +67,7 @@ function handleDelete() {
       </UButton>
     </div>
 
-    <div class="product-grid">
+    <TransitionGroup name="fade-slide" tag="div" class="product-grid" appear>
       <ProductCard
         v-for="product in store.products"
         :key="product.id"
@@ -67,7 +76,7 @@ function handleDelete() {
         @edit="openEditModal"
         @delete="openDeleteModal"
       />
-    </div>
+    </TransitionGroup>
 
     <div v-if="store.products.length === 0" class="empty-state">
       <UIcon name="i-lucide-coffee" class="text-6xl text-muted mb-4" />
@@ -96,6 +105,7 @@ function handleDelete() {
   padding: 2rem;
   max-width: 1400px;
   margin: 0 auto;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .header-section {
@@ -120,5 +130,14 @@ function handleDelete() {
   justify-content: center;
   padding: 4rem 2rem;
   text-align: center;
+}
+
+.fade-slide-enter-active {
+  transition: all 0.5s ease-out;
+}
+
+.fade-slide-enter-from {
+  opacity: 0;
+  transform: translateY(20px);
 }
 </style>
